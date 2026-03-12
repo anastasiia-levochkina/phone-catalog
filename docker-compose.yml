@@ -1,0 +1,71 @@
+services:
+  mate-db:
+    image: postgres:16-alpine
+    container_name: mate-db
+    environment:
+      POSTGRES_USER: ${DB_USER:-mate_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-mate_password}
+      POSTGRES_DB: ${DB_NAME:-mate_db}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - mate-db-data:/var/lib/postgresql/data
+    networks:
+      - mate-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-mate_user} -d ${DB_NAME:-mate_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mate-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: mate-backend
+    ports:
+      - "${BACKEND_PORT:-4000}:4000"
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      DB_HOST: mate-db
+      DB_PORT: 5432
+      DB_USER: ${DB_USER:-mate_user}
+      DB_PASSWORD: ${DB_PASSWORD:-mate_password}
+      DB_NAME: ${DB_NAME:-mate_db}
+      PORT: 4000
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      mate-db:
+        condition: service_healthy
+    networks:
+      - mate-network
+    command: npm run start:dev
+
+  mate-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: mate-frontend
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:4000}
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - mate-backend
+    networks:
+      - mate-network
+    command: npm run dev
+
+networks:
+  mate-network:
+    driver: bridge
+
+volumes:
+  mate-db-data:

@@ -1,0 +1,123 @@
+# Mate Fullstack Docker Template
+
+Повноцінний шаблон фулстек додатку для вивчення інфраструктури та Docker. Проект включає Next.js фронтенд, Nest.js бекенд та PostgreSQL базу даних, все піднімається через Docker Compose.
+
+## 🚀 Особливості
+
+- **Frontend**: Next.js 14 з React Query та TypeScript
+- **Backend**: Nest.js з TypeORM, Swagger документацією та валідацією
+- **Database**: PostgreSQL 16 з автоматичною ініціалізацією
+- **Docker**: Повна контейнеризація з Docker Compose
+- **Developer Experience**: Hot reload, React Query DevTools, Swagger UI
+
+## 📋 Передумови
+
+- Docker та Docker Compose встановлені
+- Make (опціонально, для зручності)
+
+## 🏗️ Архітектура
+
+```
+mate-setup/
+├── frontend/          # Next.js додаток з React Query
+├── backend/           # Nest.js API з TypeORM та PostgreSQL
+├── docker-compose.yml # Оркестрація всіх сервісів
+├── Makefile          # Зручні команди для управління
+└── README.md         # Документація
+```
+
+## ⚡ Швидкий старт
+
+1. **Клонуйте репозиторій:**
+   ```bash
+   git clone <repository-url>
+   cd mate-setup
+   ```
+
+2. **Запустіть проект:**
+   ```bash
+   make up
+   ```
+   
+   Або без Make:
+   ```bash
+   docker-compose up -d --build
+   ```
+
+3. **Відкрийте в браузері:**
+   - Frontend: http://localhost:3000
+   - Swagger документація: http://localhost:4000/api/docs
+
+## 🛠️ Команди
+
+### Makefile команди
+
+| Команда | Опис |
+|---------|------|
+| `make up` | Підняти всі сервіси в фоновому режимі |
+| `make down` | Зупинити всі сервіси |
+| `make build` | Зібрати Docker образи |
+| `make logs` | Перегляд логів всіх сервісів |
+| `make logs-frontend` | Логи тільки фронтенду |
+| `make logs-backend` | Логи тільки бекенду |
+| `make logs-db` | Логи тільки бази даних |
+| `make restart` | Перезапустити всі сервіси |
+| `make clean` | Повне очищення (volumes, images, containers) |
+| `make db` | Підключитися до PostgreSQL через psql |
+| `make install` | Встановити залежності локально |
+
+### Docker Compose команди
+
+```bash
+# Запуск
+docker-compose up -d              # Запустити в фоновому режимі
+docker-compose up -d --build      # Зібрати та запустити
+
+# Зупинка
+docker-compose down               # Зупинити та видалити контейнери
+docker-compose stop               # Тільки зупинити
+
+# Логи
+docker-compose logs -f            # Всі логи
+docker-compose logs -f mate-backend  # Логи конкретного сервісу
+
+# Перезапуск
+docker-compose restart            # Всі сервіси
+docker-compose restart mate-backend  # Конкретний сервіс
+```
+
+## 🔧 Конфігурація
+
+Файл `env.example` містить приклад конфігурації.
+
+## 📚 Документація
+- **Swagger API**: http://localhost:4000/api/docs - інтерактивна документація API
+- **React Query DevTools**: доступні на фронтенді (іконка внизу екрану)
+
+## 🧪 Тестування API
+
+### Через Swagger UI
+
+1. Відкрийте http://localhost:4000/api/docs
+2. Оберіть потрібний ендпоінт
+3. Натисніть "Try it out"
+4. Введіть параметри та натисніть "Execute"
+
+## 🤝 Внесок
+
+Вітаються pull requests! Для великих змін спочатку відкрийте issue для обговорення.
+
+
+## 📖 Корисні посилання
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Nest.js Documentation](https://docs.nestjs.com)
+- [React Query Documentation](https://tanstack.com/query/latest)
+- [TypeORM Documentation](https://typeorm.io)
+- [Docker Documentation](https://docs.docker.com)
+- [Docker Compose Documentation](https://docs.docker.com/compose/)
+- [Swagger Documentation](https://swagger.io/docs/)
+
+## ⭐ Зірки
+
+Якщо цей проект був корисним для вас, будь ласка, поставте зірку! ⭐
