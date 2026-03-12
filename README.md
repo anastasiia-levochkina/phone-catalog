@@ -11,7 +11,7 @@ The application demonstrates modern frontend development practices including com
 
 ## 🚀 Live Demo
 
-[Live Preview](https://anastasiia-levochkina.github.io/phone-catalog/)
+[Live Preview](https://team-project-phone-catalog.github.io/#/)
 
 ---
 
